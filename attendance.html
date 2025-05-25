@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attend-Wise</title>
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6b7c93, #c7cfd6); /* Smooth gradient background */
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Container Styles */
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 70%;
+            height: 80vh;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+        }
+
+        .container:hover {
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+
+        /* Left Panel Styles */
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #34495e, #2c3e50); /* Dark gradient background */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: right;
+            padding: 40px;
+            text-align: right;
+        }
+
+        .left-panel h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: textFadeIn 1.5s ease-in-out;
+        }
+
+        .left-panel p {
+            font-size: 1.0rem;
+            margin-bottom: 30px;
+            color: #ecf0f1;
+        }
+
+        /* Right Panel Styles */
+        .right-panel {
+            flex: 1;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            opacity: 0;
+            animation: slideIn 1s forwards 0.5s; /* Animation delay */
+        }
+
+        .right-panel h1 {
+            font-size: 2.5rem;
+            color: #34495e;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            margin: 0;
+            margin-bottom: 50px;
+            z-index: 10;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 1.5rem;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .form-group input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        /* Buttons */
+        button[type="button"], #markEntryButton, #markExitButton, #enterEmailButton, #enterPinButton {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            background-color: #2c3e50; /* Darker button color */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 15px; /* Space between buttons */
+            width: 100%; /* Full width buttons for a cleaner layout */
+        }
+
+        button[type="button"]:hover, #markEntryButton:hover, #markExitButton:hover, #enterEmailButton:hover, #enterPinButton:hover {
+            background-color: #2980b9; /* Lighter blue on hover */
+            transform: translateY(-3px); /* Slight lift effect */
+        }
+
+        button[type="button"]:active, #markEntryButton:active, #markExitButton:active, #enterEmailButton:active, #enterPinButton:active {
+            background-color: #1abc9c; /* Greenish on active click */
+            transform: translateY(1px); /* Slight press effect */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+            }
+
+            .left-panel {
+                padding: 30px;
+            }
+
+            .right-panel {
+                padding: 25px;
+            }
+
+            .form-group input {
+                width: 80%; /* Reduce width on smaller screens */
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes textFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1>Attend-Wise</h1>
+            <p>Track your attendance with location verification.</p>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <h2>ATTENDANCE FORM</h2>
+            <form>
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <button type="button" id="enterEmailButton">Enter Your Email</button>
+                </div>
+
+                <!-- Pin Verification -->
+                <div class="form-group">
+                    <label for="pin">Enter PIN (every 1.5 hours):</label>
+                    <input type="text" id="pin" maxlength="4" placeholder="Enter PIN 1234">
+                    <button type="button" id="enterPinButton">Submit PIN</button>
+                </div>
+
+            </form>
+
+            <div>
+                <button id="markEntryButton" onclick="markEntryTime()">Mark Entry Time</button>
+                <button id="markExitButton" onclick="markExitTime()">Mark Exit Time</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer variable for PIN validation
+        let pinTimeout;
+
+        // Function to check if the user is within the allowed location
+        function isWithinLocation(latitude, longitude) {
+            const targetLatitude = 22.58290903258156;
+            const targetLongitude = 88.31991311303071;
+            const radius = 0.02; // Approx. 200 meters in latitude/longitude difference
+            const distance = Math.sqrt(
+                Math.pow(latitude - targetLatitude, 2) + Math.pow(longitude - targetLongitude, 2)
+            );
+
+            return distance <= radius;
+        }
+
+        // Function to start the PIN timer
+        function startPinTimer() {
+            clearTimeout(pinTimeout); // Clear any existing timer
+
+            // Set timeout for 1.5 hours (90 minutes = 5400000 milliseconds)
+            pinTimeout = setTimeout(() => {
+                alert("You failed to provide the PIN in time. Marking you as absent.");
+                markAbsent();
+            }, 5400000); // 1.5 hours in milliseconds
+        }
+
+        // Function to validate PIN
+        function validatePin() {
+            const enteredPin = document.getElementById('pin').value;
+            const correctPin = "1234"; // Replace with actual logic
+
+            if (enteredPin === correctPin) {
+                alert("PIN validated successfully!");
+                startPinTimer();
+            } else {
+                alert("Invalid PIN! Please try again.");
+            }
+        }
+
+        // Function to handle the entry time
+        function markEntryTime() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert("Please enter your email!");
+                return;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const { latitude, longitude } = position.coords;
+
+                    if (isWithinLocation(latitude, longitude)) {
+                        const entryTime = new Date().toISOString();
+                        alert("You are in the correct location. Entry time recorded at: " + entryTime);
+
+                        const formData = new FormData();
+                        formData.append("action", "mark_entry");
+                        formData.append("email", email);
+                        formData.append("entry_time", entryTime);
+
+                        fetch("save_attendance.php", {
+                            method: "POST",
+                            body: formData,
+                        })
+                        .then((response) => response.text())
+                        .then((data) => {
+                            alert(data);
+                        })
+                        .catch((error) => {
+                            console.error("Error:", error);
+                        });
+                    } else {
+                        alert("You are outside the permitted location. Please move to the designated area.");
+                    }
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to handle the exit time
+        function markExitTime() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert("Please enter your email!");
+                return;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const { latitude, longitude } = position.coords;
+
+                    if (isWithinLocation(latitude, longitude)) {
+                        const exitTime = new Date().toISOString();
+                        alert("You are in the correct location. Exit time recorded at: " + exitTime);
+
+                        const formData = new FormData();
+                        formData.append("action", "mark_exit");
+                        formData.append("email", email);
+                        formData.append("exit_time", exitTime);
+
+                        fetch("save_attendance.php", {
+                            method: "POST",
+                            body: formData,
+                        })
+                        .then((response) => response.text())
+                        .then((data) => {
+                            alert(data);
+                        })
+                        .catch((error) => {
+                            console.error("Error:", error);
+                        });
+                    } else {
+                        alert("You are outside the permitted location. Please move to the designated area.");
+                    }
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+
+</body>
+</html>

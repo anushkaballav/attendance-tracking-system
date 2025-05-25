@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Details</title>
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6b7c93, #c7cfd6); /* Smooth gradient background */
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Container Styles */
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 70%;
+            height: 80vh;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+        }
+
+        .container:hover {
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+
+        /* Left Panel Styles */
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #34495e, #2c3e50); /* Dark gradient background */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: right;
+            padding: 40px;
+            text-align: right;
+        }
+
+        .left-panel h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: textFadeIn 1.5s ease-in-out;
+        }
+
+        .left-panel p {
+            font-size: 1.0rem;
+            margin-bottom: 30px;
+            color: #ecf0f1;
+        }
+
+        /* Right Panel Styles */
+        .right-panel {
+            flex: 1;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 40px 30px;
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            opacity: 0;
+            animation: slideIn 1s forwards 0.5s; /* Animation delay */
+            overflow-y: auto;
+        }
+
+        .right-panel h2 {
+            font-size: 2.5rem;
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        /* Section Styles */
+        .section {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            background-color: #34495e;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .section-title:hover {
+            background-color: #2980b9;
+        }
+
+        .section-title span {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .semester-list {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .semester-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            color: #34495e;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .semester-item:hover {
+            background-color: #d5dbdb;
+            transform: translateX(5px);
+        }
+
+        /* Dropdown and Search Styles */
+        .controls {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .dropdown select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            margin-bottom: 15px;
+            color: #34495e;
+            background-color: white;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .dropdown select:focus {
+            border-color: #3498db;
+        }
+
+        .search-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            border-color: #3498db;
+        }
+
+        .search-container button {
+            padding: 12px 15px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+            }
+
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+
+            .left-panel {
+                padding: 30px;
+                text-align: center;
+            }
+
+            .right-panel {
+                padding: 25px;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes textFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1>Curriculum Details</h1>
+            <p>Browse through curriculum resources by section and semester.</p>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <h2>CURRICULUM DETAILS</h2>
+            
+            <div class="controls">
+                <div class="dropdown">
+                    <select id="sectionDropdown" onchange="navigateToSection()">
+                        <option value="">Choose Section</option>
+                        <option value="classRoutine">Class Routine</option>
+                        <option value="syllabus">Syllabus</option>
+                        <option value="books">Books</option>
+                        <option value="examRoutine">Exam Routine</option>
+                    </select>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" id="searchSection" placeholder="Search Section">
+                    <button onclick="searchSection()">Search</button>
+                </div>
+            </div>
+
+            <!-- Class Routine Section -->
+            <div class="section" id="classRoutine">
+                <div class="section" id="classRoutine">
+                    <a href="class_routine.html" style="text-decoration: none;">
+                        <div class="section-title">
+                            Class Routine <span>→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Syllabus Section -->
+            <div class="section" id="syllabus">
+                <div class="section" id="syllabus">
+                    <a href="syllabus.html" style="text-decoration: none;">
+                        <div class="section-title">
+                            Syllabus <span>→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Books Section -->
+            <div class="section" id="books">
+                <div class="section" id="books">
+                    <a href="books.html" style="text-decoration: none;">
+                        <div class="section-title">
+                            Books <span>→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Exam Routine Section -->
+            <div class="section" id="examRoutine">
+                <div class="section" id="examRoutine">
+                    <a href="exam_routine.html" style="text-decoration: none;">
+                        <div class="section-title">
+                            Exam Routine <span>→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(id) {
+            const section = document.getElementById(id);
+            const icon = section.previousElementSibling.querySelector('span');
+            
+            if (section.style.display === 'block') {
+                section.style.display = 'none';
+                icon.innerHTML = '+';
+            } else {
+                section.style.display = 'block';
+                icon.innerHTML = '−';
+            }
+        }
+
+        function navigateToSection() {
+            const selectedValue = document.getElementById('sectionDropdown').value;
+            if (selectedValue) {
+                const section = document.getElementById(selectedValue);
+                section.scrollIntoView({ behavior: 'smooth' });
+                
+                // Automatically open the section
+                const listId = selectedValue + '-list';
+                const list = document.getElementById(listId);
+                const icon = list.previousElementSibling.querySelector('span');
+                
+                list.style.display = 'block';
+                icon.innerHTML = '−';
+            }
+        }
+
+        function searchSection() {
+            const query = document.getElementById('searchSection').value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const title = section.querySelector('.section-title').innerText.toLowerCase();
+                if (title.includes(query)) {
+                    section.style.display = 'block';
+                    // Scroll to the first matching section
+                    if (section === sections[0] || sections[0].style.display === 'none') {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
