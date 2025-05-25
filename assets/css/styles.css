@@ -1,0 +1,204 @@
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #6b7c93, #c7cfd6);
+    animation: fadeIn 2s ease-out;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 70%;
+    height: 80vh;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    animation: slideIn 1s forwards;
+}
+
+.container:hover {
+    transform: scale(1.05);
+}
+
+/* Left Panel */
+.left-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    text-align: right;
+}
+
+.left-panel h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    animation: textFadeIn 1.5s ease-in-out;
+}
+
+.left-panel p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #ecf0f1;
+}
+
+/* Right Panel */
+.right-panel {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 30px;
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    opacity: 0;
+    animation: slideIn 1s forwards 0.5s;
+}
+
+.right-panel h1 {
+    font-size: 2.5rem;
+    color: #34495e;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    margin: 0;
+    margin-bottom: 50px;
+    z-index: 10;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+/* Button Styling */
+button {
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+}
+
+button:active {
+    background-color: #1abc9c;
+    transform: translateY(1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+    }
+
+    .left-panel {
+        padding: 30px;
+        text-align: center;
+    }
+
+    .right-panel {
+        padding: 25px;
+    }
+
+    .form-group input {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes textFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
